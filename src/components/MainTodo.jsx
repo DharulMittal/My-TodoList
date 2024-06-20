@@ -15,7 +15,7 @@ const MainTodo = () => {
             setTodoList(data)
         }
     }, [])
-
+    
 
     const saveList = () => {
         localStorage.setItem("taskList", JSON.stringify(TodoList))
@@ -70,7 +70,7 @@ const MainTodo = () => {
 
     return (
         <>
-            <div className='bg-[#ffff0026] pt-[20px] h-[95vh]'>
+            <div className='bg-[#ffff0026] pt-[20px] min-h-[95vh]'>
                 <div className="container border-[1px] md:w-[60%] lg:w-[40%] m-auto min-h-[80vh] bg-[#ffff0071] p-[15px] rounded-2xl">
 
                     <h1 className='text-center text-xl font-bold'>
@@ -98,10 +98,10 @@ const MainTodo = () => {
 
                         {TodoList.map(item => {
 
-                            return (showcompleted || !item.isCompleted) && <div key={item.id} className="flex gap-[5px] justify-between px-[15px]">
-                                <div className='flex gap-[20px] items-center'>
+                            return (showcompleted || !item.isCompleted ) && <div key={item.id} className="flex gap-[5px] justify-between px-[15px]">
+                                <div className='flex gap-[20px] items-center w-[75%]'>
                                     <input type="checkbox" onChange={taskcheckbox} name={item.id} id={item.id} checked={item.isCompleted}/>
-                                    <div className={item.isCompleted ? "line-through w-[75%]" : "w-[75%]"} >{item.todo}</div>
+                                    <div className={item.isCompleted ? "line-through w-[75%] overflow-hidden" : "w-[75%] overflow-hidden"} >{item.todo}</div>
                                 </div>
 
                                 <div className="flex btns gap-2 items-center">
