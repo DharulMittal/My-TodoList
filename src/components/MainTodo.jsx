@@ -16,15 +16,15 @@ const MainTodo = () => {
         }
     }, [])
     
-
-    const saveList = () => {
-        localStorage.setItem("taskList", JSON.stringify(TodoList))
-    }
+    useEffect(() => {
+        if (TodoList.length > 0) {
+            localStorage.setItem("taskList", JSON.stringify(TodoList))    
+        }
+    }, [TodoList,todo])
 
     const saveTodo = () => {
         setTodoList([...TodoList, { id: uuidv4(), todo, isCompleted: false }])
         setTodo("")
-        saveList()
     }
 
     const editTodo = (e, id) => {
@@ -36,7 +36,6 @@ const MainTodo = () => {
             return i.id !== id
         })
         setTodoList(newlst)
-        saveList()
     }
 
     const deleteTodo = (e, id) => {
@@ -44,7 +43,6 @@ const MainTodo = () => {
             return i.id !== id
         })
         setTodoList(newlst)
-        saveList()
     }
 
     const handleChange = (e) => {
@@ -61,7 +59,6 @@ const MainTodo = () => {
             }
         }
         setTodoList(newtodo);
-        saveList()
     }
 
     const toggleshowcomp = () => {
