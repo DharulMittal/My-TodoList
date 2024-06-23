@@ -14,13 +14,14 @@ const MainTodo = () => {
             data = JSON.parse(localStorage.getItem("taskList"))
             setTodoList(data)
         }
+        document.getElementById("InputTask").focus()
     }, [])
-    
+
     useEffect(() => {
         if (TodoList.length > 0) {
-            localStorage.setItem("taskList", JSON.stringify(TodoList))    
+            localStorage.setItem("taskList", JSON.stringify(TodoList))
         }
-    }, [TodoList,todo])
+    }, [TodoList, todo])
 
     const saveTodo = () => {
         setTodoList([...TodoList, { id: uuidv4(), todo, isCompleted: false }])
@@ -36,6 +37,7 @@ const MainTodo = () => {
             return i.id !== id
         })
         setTodoList(newlst)
+        document.getElementById("InputTask").focus()
     }
 
     const deleteTodo = (e, id) => {
@@ -47,6 +49,12 @@ const MainTodo = () => {
 
     const handleChange = (e) => {
         setTodo(e.target.value)
+    }
+
+    const keycheck = (e) => {
+        if (e.key == "Enter") {
+            saveTodo()
+        }
     }
 
     const taskcheckbox = (e) => {
@@ -63,6 +71,7 @@ const MainTodo = () => {
 
     const toggleshowcomp = () => {
         setShowcompleted(!showcompleted)
+        document.getElementById("InputTask").focus()
     }
 
     return (
@@ -78,10 +87,9 @@ const MainTodo = () => {
                         Add Task
                     </h2>
                     <div className="flex justify-around my-[5px]">
-                        <input type="text" onChange={handleChange} autoFocus value={todo} className='rounded-[15px] w-[75%] px-[10px] text-sm' />
+                        <input type="text" onKeyDown={keycheck} onChange={handleChange} autoFocus value={todo} id='InputTask' className='rounded-[15px] w-[75%] px-[10px] text-sm' />
                         <button onClick={saveTodo} className='bg-[#a54e4eac] rounded-[15px] w-[15%] hover:bg-[#a54e4e] '>Save</button>
                     </div>
-
 
                     <input type="checkbox" name="Show Completed" id="showcompleted" checked={showcompleted} onChange={toggleshowcomp} className='mt-[10px]' />
                     <label htmlFor="showcompleted" className='mx-[5px]'>Show Completed Tasks</label>
@@ -95,9 +103,9 @@ const MainTodo = () => {
 
                         {TodoList.map(item => {
 
-                            return (showcompleted || !item.isCompleted ) && <div key={item.id} className="flex gap-[5px] justify-between px-[15px]">
+                            return (showcompleted || !item.isCompleted) && <div key={item.id} className="flex gap-[5px] justify-between px-[15px]">
                                 <div className='flex gap-[20px] items-center w-[75%]'>
-                                    <input type="checkbox" onChange={taskcheckbox} name={item.id} id={item.id} checked={item.isCompleted}/>
+                                    <input type="checkbox" onChange={taskcheckbox} name={item.id} id={item.id} checked={item.isCompleted} />
                                     <div className={item.isCompleted ? "line-through w-[75%] overflow-hidden" : "w-[75%] overflow-hidden"} >{item.todo}</div>
                                 </div>
 
@@ -106,7 +114,6 @@ const MainTodo = () => {
                                     <button onClick={(e) => deleteTodo(e, item.id)} className='bg-[#a54e4eac] hover:bg-[#a54e4e] rounded-[12px] py-[1px] px-[10px] my-[3px]' >Delete</button>
                                 </div>
                             </div>
-
 
 
                         })}
